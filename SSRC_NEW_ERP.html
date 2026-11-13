@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SSRC Logistics Professional ERP</title>
+<style>
+:root {
+  --site-primary: #0756c9; --site-secondary: #dbeafe; --site-background: #eef4ff;
+  --site-on-primary: #ffffff; --site-on-secondary: #123b63; --site-on-background: #10233f;
+  --site-font-body: Inter, "Segoe UI", Arial, sans-serif; --site-font-heading: Inter, "Segoe UI", Arial, sans-serif;
+  --site-heading-scale: 1; --site-spacing-scale: 1; --site-radius-scale: 1; --site-decoration-opacity: 1; color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { margin:0; font-family:var(--site-font-body); background:light-dark(#f3f6fa,#101923); color:light-dark(#17283b,#edf3f9); }
+button,input,select,textarea { font:inherit; } button { cursor:pointer; }
+#app { min-height:100vh; width:100%; background-color:var(--site-background); color:var(--site-on-background); border-radius:0; }
+.topbar { background:linear-gradient(115deg,#073b91,#0878e8 65%,#13a8c7); color:var(--site-on-primary); padding:calc(20px * var(--site-spacing-scale)) calc(26px * var(--site-spacing-scale)); display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; box-shadow:0 5px 20px #0756c926; }
+.brand { display:flex; gap:13px; align-items:center; }
+.logo { width:45px;height:45px;border-radius:12px;background:#ffffff20;display:grid;place-items:center;font-weight:900;font-size:18px;border:1px solid #ffffff55; }
+.brand h1 { margin:0; font-size:calc(20px * var(--site-heading-scale)); letter-spacing:.2px; }
+.brand p { margin:4px 0 0; color:#d6e8fa; font-size:12px; }
+.top-actions {display:flex;gap:8px;flex-wrap:wrap}
+.btn { border:1px solid #cbd5e1; background:light-dark(#fff,#1b2a39); color:light-dark(#18334c,#f0f5fa); padding:9px 12px; border-radius:calc(9px * var(--site-radius-scale)); font-weight:700; font-size:12px; }
+.btn:hover {filter:brightness(.97)}
+.btn.primary { background:var(--site-primary); border-color:var(--site-primary); color:white; }
+.btn.light {background:#fff;color:#123b63;border-color:#ffffff80}
+.btn.danger { color:#b42318;border-color:#f1c5c1;background:light-dark(#fff7f6,#351d1d); }
+.btn.edit {color:#ffffff;border-color:#0878e8;background:linear-gradient(135deg,#0756c9,#0891b2);font-weight:850;box-shadow:0 3px 9px #0878e833}
+.layout {display:grid;grid-template-columns:230px minmax(0,1fr);min-height:calc(100vh - 86px)}
+.sidebar {background:light-dark(#fff,#151f2a);border-right:1px solid light-dark(#dce4ed,#2a3948);padding:16px 12px;}
+.nav-label {font-size:10px;letter-spacing:1.2px;font-weight:800;color:#8292a4;padding:10px 12px 7px}
+.nav {width:100%;text-align:left;display:flex;gap:10px;align-items:center;border:0;background:transparent;color:inherit;padding:11px 12px;border-radius:9px;margin:2px 0;font-size:13px;font-weight:650}
+.nav.active {background:linear-gradient(100deg,#dbeafe,#cffafe);color:#073b91;box-shadow:inset 3px 0 #0878e8;font-weight:850}
+.nav .ico {width:20px;text-align:center}
+.main {padding:24px;min-width:0}
+.page-head {display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+h2 {font-size:calc(24px * var(--site-heading-scale));margin:0 0 6px}
+.sub {color:light-dark(#64748b,#a7b7c8);font-size:13px;margin:0}
+.metrics {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}
+.metric {background:light-dark(#fff,#172431);border:1px solid light-dark(#e0e7ef,#2b3a49);border-radius:14px;padding:18px;box-shadow:0 3px 12px #102d4b08}
+.metric .k {font-size:12px;color:light-dark(#65758a,#a5b5c7);font-weight:700}
+.metric .v {font-size:25px;font-weight:850;margin-top:8px;letter-spacing:-.5px}
+.metric .note {font-size:11px;color:#8795a5;margin-top:5px}
+.panel {background:light-dark(#fff,#172431);border:1px solid light-dark(#e0e7ef,#2b3a49);border-radius:14px;overflow:hidden;margin-bottom:18px}
+.panel-head {padding:17px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid light-dark(#e7edf3,#2b3a49)}
+.panel-head h3 {margin:0;font-size:15px}
+.filters {display:flex;gap:8px;flex-wrap:wrap}
+.field-control {border:1px solid #9bb8d8;border-radius:8px;padding:10px 12px;background:#fff;color:#10233f;min-width:170px;font-size:14px}
+.table-wrap {overflow:auto;max-width:100%}
+table {border-collapse:collapse;width:100%;white-space:nowrap;font-size:12px}
+th {background:light-dark(#dcecff,#1d3550);text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:light-dark(#123b63,#e1efff);padding:13px 14px;border-bottom:1px solid light-dark(#bcd5f3,#334354)}
+td {padding:12px 14px;border-bottom:1px solid light-dark(#edf1f5,#293947);vertical-align:middle}
+tbody tr:hover {background:light-dark(#f9fbfd,#1a2937)}
+.empty {padding:38px 20px;text-align:center;color:#8191a4}
+.actions {display:flex;gap:6px}
+.status {display:inline-block;border-radius:20px;padding:5px 8px;font-size:10px;font-weight:800;background:#fff0c2;color:#865600}
+.status.ok {background:#d9f7e7;color:#11643b}
+.form-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding:24px;background:#edf5ff;border-top:1px solid #c7dcf5}
+.form-field {display:flex;flex-direction:column;gap:6px;min-width:0}
+.form-field label {font-size:14px;font-weight:850;color:#082f63;line-height:1.45;letter-spacing:.1px}
+.form-field input,.form-field select,.form-field textarea {width:100%;min-width:0;border:2px solid #8fb4df;border-radius:10px;padding:13px;background:#ffffff;color:#10233f;font-size:15px;font-weight:550;min-height:49px;box-shadow:0 2px 5px #123b630c}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus,.field-control:focus {outline:3px solid #93c5fd;border-color:#0756c9;box-shadow:0 0 0 3px #0756c91a}
+.form-field textarea {min-height:88px;resize:vertical}
+.form-actions {display:flex;justify-content:flex-end;gap:8px;padding:15px 18px;border-top:1px solid light-dark(#e7edf3,#2b3a49)}
+.hidden {display:none!important}
+.tip {background:light-dark(#edf5ff,#142c40);border:1px solid light-dark(#cfe3fa,#254660);color:light-dark(#234c72,#cde6ff);padding:12px 14px;border-radius:10px;font-size:12px;margin-bottom:16px}
+.toast {position:fixed;right:20px;bottom:20px;background:#123b63;color:#fff;padding:12px 16px;border-radius:10px;box-shadow:0 10px 30px #0002;display:none;z-index:20;font-size:13px}
+.footer {font-size:11px;color:#8292a4;padding:15px 2px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{display:flex;gap:4px;overflow:auto;border-right:0;border-bottom:1px solid #dce4ed;padding:8px}.nav-label{display:none}.nav{white-space:nowrap;width:auto}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.main{padding:16px}}
+@media(max-width:560px){.metrics{grid-template-columns:1fr 1fr;gap:8px}.metric{padding:13px}.metric .v{font-size:20px}.form-grid{grid-template-columns:1fr 1fr}.topbar{padding:15px}.brand h1{font-size:17px}.main{padding:12px}.field-control{min-width:130px}}
+</style>
+</head>
+<body>
+
+<div id="loginOverlay" style="position:fixed;inset:0;background:linear-gradient(135deg,#073b91,#0878e8);display:grid;place-items:center;z-index:9999;padding:20px">
+  <div style="background:#fff;padding:32px;border-radius:16px;width:min(380px,100%);box-shadow:0 20px 60px #0004">
+    <h2 style="margin:0 0 6px;color:#073b91;font-size:22px">SSRC Logistics ERP</h2>
+    <p style="margin:0 0 20px;color:#64748b;font-size:13px">Please sign in to continue</p>
+    <form id="loginForm">
+      <div style="margin-bottom:12px">
+        <label style="font-size:12px;font-weight:700;color:#082f63">Email</label>
+        <input id="loginEmail" type="email" required style="width:100%;padding:11px;border:2px solid #8fb4df;border-radius:9px;margin-top:4px;font-size:14px">
+      </div>
+      <div style="margin-bottom:16px">
+        <label style="font-size:12px;font-weight:700;color:#082f63">Password</label>
+        <input id="loginPass" type="password" required style="width:100%;padding:11px;border:2px solid #8fb4df;border-radius:9px;margin-top:4px;font-size:14px">
+      </div>
+      <button type="submit" class="btn primary" style="width:100%;padding:12px;font-size:14px">Sign In</button>
+      <p id="loginErr" style="color:#dc2626;font-size:12px;margin:10px 0 0;display:none;font-weight:bold"></p>
+    </form>
+  </div>
+</div>
+
+<div id="app" style="display:none">
+  <header class="topbar">
+    <div class="brand"><div class="logo">SSRC</div><div><h1>SSRC LOGISTICS INDIA</h1><p>Professional Transport &amp; Logistics ERP</p></div></div>
+    <div class="top-actions">
+      <span class="btn light" id="autoSaveMark" style="cursor:default">🟢 CLOUD AUTO SAVE ON</span>
+      <button class="btn light" id="logoutBtn" style="background:#fee2e2;color:#b91c1c;border-color:#fca5a5">🚪 Logout</button>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="nav-label">WORKSPACE</div>
+      <button class="nav active" data-page="Dashboard"><span class="ico">▦</span>Dashboard</button>
+      <button class="nav" data-page="Bookings"><span class="ico">🚚</span>Vehicle Booking / LR</button>
+      <div class="nav-label">MASTERS</div>
+      <button class="nav" data-page="Party Master"><span class="ico">♙</span>Party Master</button>
+      <button class="nav" data-page="Vehicle Owners"><span class="ico">♧</span>Vehicle Owners</button>
+      <button class="nav" data-page="Broker Master"><span class="ico">⇄</span>Broker Master</button>
+      <button class="nav" data-page="Broker Payments"><span class="ico">₹</span>Broker Payment / Ledger</button>
+      <button class="nav" data-page="Party Payments"><span class="ico">₹</span>Party Receipt / Adjustment</button>
+      <button class="nav" data-page="Vehicle Master"><span class="ico">▣</span>Vehicle Master</button>
+      <div class="nav-label">ACCOUNTS &amp; TRACKING</div>
+      <button class="nav" data-page="Expenses"><span class="ico">₹</span>Expenses</button>
+      <button class="nav" data-page="Invoices"><span class="ico">▤</span>Invoices</button>
+      <button class="nav" data-page="POD Tracker"><span class="ico">✓</span>POD Tracker</button>
+      <button class="nav" data-page="Daily Cashbook"><span class="ico">▧</span>Daily Cashbook</button>
+    </aside>
+    <main class="main">
+      <section id="dashboardPage">
+        <div class="page-head"><div><h2>Dashboard</h2><p class="sub">Your transport business at a glance.</p></div><button class="btn primary" onclick="openNewBooking()">＋ New Booking</button></div>
+        <div class="metrics">
+          <div class="metric"><div class="k">TOTAL BOOKINGS</div><div class="v" id="mBookings">0</div><div class="note">Total LR entries</div></div>
+          <div class="metric"><div class="k">FREIGHT OUTSTANDING</div><div class="v" id="mOutstanding">₹0</div><div class="note">Party balance due</div></div>
+          <div class="metric"><div class="k">OWNER / BROKER DUE</div><div class="v" id="mOwnerDue">₹0</div><div class="note">Vehicle hire balance</div></div>
+          <div class="metric"><div class="k">POD PENDING</div><div class="v" id="mPOD">0</div><div class="note">Loads awaiting POD</div></div>
+        </div>
+        <div class="tip">✏️ <b>Action → Edit</b> is available on every record table. Data is saved securely to the Cloud.</div>
+        <div class="panel"><div class="panel-head"><h3>All Data Overview</h3><span class="status ok">CLOUD SYNCED</span></div><div class="table-wrap"><table><thead><tr><th>Module</th><th>Saved Entries</th><th>Open</th></tr></thead><tbody id="dataOverviewRows"></tbody></table></div></div>
+        <div class="panel"><div class="panel-head"><h3>All Booking / LR Records</h3><button class="btn" onclick="navigate('Bookings')">Manage Bookings →</button></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>LR Number</th><th>Party</th><th>Vehicle</th><th>From → To</th><th>Freight</th><th>Party Balance</th><th>Action</th></tr></thead><tbody id="recentRows"></tbody></table></div></div>
+      </section>
+      <section id="recordsPage" class="hidden">
+        <div class="page-head"><div><h2 id="pageTitle">Bookings</h2><p class="sub" id="pageSub">Manage records.</p></div><button class="btn primary" id="addBtn">＋ Add Record</button></div>
+        <div class="panel hidden" id="partyLedgerPanel"><div class="panel-head"><h3>Party Outstanding Ledger</h3></div><div class="table-wrap"><table><thead><tr><th>Party Name</th><th>Total Freight</th><th>Old Receipts / TDS</th><th>New Receipts</th><th>Balance Due</th></tr></thead><tbody id="partyLedgerRows"></tbody></table></div></div>
+        <div class="panel hidden" id="brokerLedgerPanel"><div class="panel-head"><h3>Broker Balance Ledger</h3></div><div class="table-wrap"><table><thead><tr><th>Broker Name</th><th>Total Hire / Freight</th><th>Old Payment in Booking</th><th>Payments Entered Here</th><th>Balance Due</th></tr></thead><tbody id="brokerLedgerRows"></tbody></table></div></div>
+        <div class="panel hidden" id="formPanel"><div class="panel-head"><h3 id="formTitle">Add Record</h3></div><form id="recordForm"><div class="form-grid" id="formFields"></div><div class="form-actions"><button type="button" class="btn" id="cancelBtn">Cancel</button><button type="submit" class="btn primary" id="saveBtn">Save Record</button></div></form></div>
+        <div class="panel"><div class="panel-head"><h3 id="tableTitle">All Records</h3><div class="filters"><input class="field-control" id="searchBox" placeholder="Search records…"></div></div><div class="table-wrap"><table><thead id="tableHead"></thead><tbody id="tableBody"></tbody></table></div></div>
+      </section>
+    </main>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB35Y2MvePdVcsRwOin9aWA_yTEKwXPexU",
+  authDomain: "ssrc-logistics.firebaseapp.com",
+  projectId: "ssrc-logistics",
+  storageBucket: "ssrc-logistics.firebasestorage.app",
+  messagingSenderId: "981909047691",
+  appId: "1:981909047691:web:d74f14d9aae9ca13ff078e",
+  measurementId: "G-E739NQ5SRF"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+const APP = {
+  headers: {
+    "Bookings": ["Date", "LR Number", "Party Name", "Vehicle Owner", "Vehicle No", "Transport Broker", "From", "To", "Weight (MT)", "Booking Freight (₹)", "Vehicle Hire (₹)", "Freight Advance (₹)", "Manual Payment (₹)", "NEFT Amount (₹)", "NEFT Date", "TDS (₹)", "Total Received (₹)", "Party Balance (₹)", "Owner/Broker Paid (₹)", "Owner/Broker Balance (₹)", "Unloading Date", "POD Submitted Date", "POD Status", "Payment Status", "Remark"],
+    "Party Master": ["Party Name", "Contact Person", "Mobile", "GSTIN", "Address", "Opening Balance", "Remarks"],
+    "Vehicle Owners": ["Owner Name", "Mobile", "Vehicle No", "Bank/UPI Details", "Opening Balance", "Remarks"],
+    "Broker Master": ["Broker Name", "Mobile", "Address", "Opening Balance", "Remarks"],
+    "Vehicle Master": ["Vehicle No", "Owner Name", "Vehicle Type", "Capacity (MT)", "Permit/Expiry", "Insurance Expiry", "Remarks"],
+    "Expenses": ["Date", "LR Number", "Vehicle No", "Expense Type", "Paid To", "Amount (₹)", "Payment Mode", "Remark"],
+    "Invoices": ["Invoice Date", "Invoice No", "Party Name", "LR Number(s)", "Invoice Amount (₹)", "Tax (₹)", "Total (₹)", "Due Date", "Status", "Remark"],
+    "POD Tracker": ["LR Number", "Party Name", "Vehicle No", "Unloading Date", "POD Submitted Date", "POD Status", "Courier/Reference", "Remark"],
+    "Daily Cashbook": ["Date", "Particulars", "Reference/LR", "Cash In (₹)", "Cash Out (₹)", "Mode", "Running Balance (₹)", "Remark"],
+    "Broker Payments": ["Payment Date", "Broker Name", "LR Number", "Amount Paid (₹)", "Payment Mode", "Transaction / UTR No", "Remarks"],
+    "Party Payments": ["Payment Date", "Party Name", "LR Number", "Invoice Number", "Amount Received (₹)", "Payment Mode", "Transaction / UTR No", "Remarks"]
+  },
+  records: {}
+};
+Object.keys(APP.headers).forEach(p => APP.records[p] = []);
+
+const state = { page:"Dashboard", editId:null, records:null };
+const $ = id => document.getElementById(id);
+const money = n => "₹"+(Number(n)||0).toLocaleString("en-IN",{maximumFractionDigits:2});
+
+async function cloudSave(snapshot) {
+  try { await setDoc(doc(db, "erp_data", "ssrc_main_data"), snapshot); return true; } 
+  catch (e) { console.error("Cloud error:", e); return false; }
+}
+
+async function cloudLoad() {
+  try {
+    const snap = await getDoc(doc(db, "erp_data", "ssrc_main_data"));
+    return snap.exists() ? snap.data() : null;
+  } catch (e) { return null; }
+}
+
+async function loadDataAsync() {
+  const obj={};
+  let master = await cloudLoad();
+  for(const p of Object.keys(APP.headers)){
+    let rows = master&&master.records&&master.records[p];
+    obj[p] = Array.isArray(rows)?rows:[];
+  }
+  return obj;
+}
+
+function saveData() {
+  const snapshot = {app:"SSRC ERP",version:1,savedAt:new Date().toISOString(),records:state.records};
+  const mark = $("autoSaveMark"); if(mark) mark.textContent="🔄 Saving...";
+  cloudSave(snapshot).then(ok => {
+    if(mark) mark.textContent = ok ? "🟢 CLOUD SAVED" : "🔴 CLOUD ERROR";
+    setTimeout(()=>{ if(mark) mark.textContent="🟢 CLOUD AUTO SAVE ON"; }, 2000);
+  });
+  renderDashboard();
+}
+
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8);}
+function toast(msg){const t=$("toast");t.textContent=msg;t.style.display="block";setTimeout(()=>t.style.display="none",2600);}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function num(v){return Number(v)||0;}
+
+function navigate(page){
+  state.page=page;state.editId=null;
+  document.querySelectorAll(".nav").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+  $("dashboardPage").classList.toggle("hidden",page!=="Dashboard");
+  $("recordsPage").classList.toggle("hidden",page==="Dashboard");
+  const ledger=$("brokerLedgerPanel"); if(ledger) ledger.classList.toggle("hidden",page!=="Broker Payments");
+  const partyLedger=$("partyLedgerPanel"); if(partyLedger) partyLedger.classList.toggle("hidden",page!=="Party Payments");
+  if(page!=="Dashboard"){renderRecords();hideForm();}
+}
+
+function partyBalanceForBooking(r){
+ const lr=String(r["LR Number"]||"").trim();
+ const extra=(state.records["Party Payments"]||[]).filter(p=>String(p["LR Number"]||"").trim()===lr).reduce((sum,p)=>sum+num(p["Amount Received (₹)"]),0);
+ return Math.max(0,num(r["Party Balance (₹)"])-extra);
+}
+function brokerBalanceForBooking(r){
+ const lr=String(r["LR Number"]||"").trim();
+ const extra=(state.records["Broker Payments"]||[]).filter(p=>String(p["LR Number"]||"").trim()===lr).reduce((sum,p)=>sum+num(p["Amount Paid (₹)"]),0);
+ return Math.max(0,num(r["Vehicle Hire (₹)"])-num(r["Owner/Broker Paid (₹)"])-extra);
+}
+
+function renderDashboard(){
+  const b=state.records.Bookings||[];
+  $("mBookings").textContent=b.length;
+  $("mOutstanding").textContent=money(b.reduce((s,r)=>s+partyBalanceForBooking(r),0));
+  const oldDue=b.reduce((s,r)=>s+Math.max(0,num(r["Owner/Broker Balance (₹)"])),0);
+  const brokerPaid=(state.records["Broker Payments"]||[]).reduce((s,r)=>s+num(r["Amount Paid (₹)"]),0);
+  $("mOwnerDue").textContent=money(Math.max(0,oldDue-brokerPaid));
+  $("mPOD").textContent=b.filter(r=>!r["POD Submitted Date"]).length;
+  const rows=b.slice().reverse();
+  $("recentRows").innerHTML=rows.length?rows.map(r=>`<tr><td>${esc(r.Date||"—")}</td><td><b>${esc(r["LR Number"]||"—")}</b></td><td>${esc(r["Party Name"]||"—")}</td><td>${esc(r["Veh
